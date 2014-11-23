@@ -13,6 +13,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
+Plugin 'bling/vim-airline'
 
 call vundle#end()
 set number
@@ -30,6 +31,9 @@ set foldmethod=indent
 set foldlevel=99
 
 let g:syntastic_check_on_open=1
+
+"Make status bar appear all the time
+set laststatus=2
 
 "Settings for YouCompleteMe
 let g:ycm_add_preview_to_completeopt=0
