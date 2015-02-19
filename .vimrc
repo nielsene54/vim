@@ -4,6 +4,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+"From github
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
@@ -14,11 +15,38 @@ Plugin 'suan/vim-instant-markdown'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 Plugin 'bling/vim-airline'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Raimondi/delimitMate'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'vim-scripts/HTML-AutoCloseTag'
+Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tmhedberg/matchit'
+Plugin 'tpope/vim-cucumber'
+Plugin 'vim-scripts/Gundo'
+"vim snipmate
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+"From vim.org
+Plugin 'repmo.vim'
+"color schemes
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 set number
 set shell=bash
 set noswapfile
+
+"Highlight search matches
+:set hlsearch
+
+"Make gdiff in fugitive.vim vertical instead of horizontal
+set diffopt+=vertical
 
 "Indentation
 set smartindent
@@ -40,18 +68,31 @@ let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 
+"Settings for Gundo
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_right = 1
+
+"Tabs
+map  <C-l> :tabn<CR>
+map  <C-h> :tabp<CR>
+map  <C-n> :tabnew<CR>
+
 set t_Co=256
 syntax on    "syntax highlighting
 filetype on  "try to detect filetype
 filetype plugin indent on   "enable loading indent file for filetype
 set background=dark
-colorscheme distinguished
+colorscheme distinguished 
 autocmd FileType tex AutoPairsDisable
 
 "make snipmate not mapped to tab so that I can use it with youcompleteme
-imap <C-J> <Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
+imap C-j <Plug>snipMateNextOrTrigger
+smap C-j <Plug>snipMateNextOrTrigger
 
+"CtrlP settings
+let g:ctrlp_custom_ignore= 'node_modules\|target\|amps-standalone\|bower_components'
 set pastetoggle=<F2>
 
 au FileType python set omnifunc=pythoncomplete#Complete
@@ -61,6 +102,9 @@ set completeopt=menuone,longest,preview
 map <leader>n :NERDTreeToggle<CR>
 
 nmap <leader>P <Esc>:CtrlP
+
+"Ctrl+C to break up {  }
+imap <C-c> <CR><Esc>O
 
 :set list lcs=tab:\|\ 
 
