@@ -28,6 +28,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-cucumber'
 Plugin 'vim-scripts/Gundo'
+Plugin 'fatih/vim-go'
 "vim snipmate
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
