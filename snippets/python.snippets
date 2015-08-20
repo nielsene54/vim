@@ -1,2 +1,58 @@
 snippet pdb
-    import pdb; pdb.set_trace()
+	import pdb; pdb.set_trace()
+snippet #!
+	#!/usr/bin/env python
+	# -*- coding: utf-8 -*-
+snippet docs
+	"""
+	File: ${1}
+	Author: ${2:Eric Nielsen} 
+	Email: ${3:nielsene54@gmail.com}
+	Github: ${4:nielsene54}
+	Description: ${5}
+snippet def
+	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
+		"""${3:docstring for $1}"""
+		${0}
+snippet main
+	if __name__ == '__main__':
+		${0:main()}
+#Django snippets
+snippet local
+	try:
+		from .local_settings import *
+	except ImportError as e:
+		if DEBUG:
+			print('Error importing local_settings:', e)
+snippet rest_urls
+	from django.conf.urls import url
+	from rest_framework.urlpatterns import format_suffix_patterns
+	from ${1:app} import views
+
+	urlpatterns = [
+		url(r'^${2:url}/$', views.${3:ModelList}.as_view()),
+		url(r'^${4:url}/(?P<pk>[0-9]+)/$', views.${5:ModelDetail}.as_view()),
+	]
+
+	urlpatterns = format_suffix_patterns(urlpatterns)
+snippet rest_views
+	from ${1:app}.models import ${2:Model} 
+	from ${3:app}.serializers import ${4:ModelSerializer} 
+	from rest_framework import generics
+
+
+	class ${5:ModelList}(generics.ListCreateAPIView):
+		queryset = ${6:Model}.objects.all()
+		serializer_class = ${7:ModelSerializer}
+
+
+	class ${8:ModelDetail}(generics.RetrieveUpdateDestroyAPIView):
+		queryset = ${9:Model}.objects.all()
+		serializer_class = ${10:ModelSerializer}
+snippet log
+	import logging
+	logger = logging.getLogger(__name__) 
+snippet eq
+	self.assertEqual(${1}, ${2})
+snippet over
+	@override_settings(DEBUG=True)

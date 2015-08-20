@@ -29,10 +29,13 @@ Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-cucumber'
 Plugin 'vim-scripts/Gundo'
 Plugin 'fatih/vim-go'
-"vim snipmate
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'SirVer/ultisnips'
+Plugin 'lambdalisue/vim-django-support'
+Plugin 'szw/vim-tags'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'fisadev/vim-isort'
 "From vim.org
 Plugin 'repmo.vim'
 "color schemes
@@ -44,7 +47,7 @@ set shell=bash
 set noswapfile
 
 "Highlight search matches
-:set hlsearch
+set hlsearch
 
 "Make gdiff in fugitive.vim vertical instead of horizontal
 set diffopt+=vertical
@@ -59,6 +62,14 @@ set expandtab
 set foldmethod=indent
 set foldlevel=99
 
+"Shows blank lines and spaces
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+set list
+
+"Custom autocmnd's
+"Delete trailing whitespaces upon write
+autocmd BufWritePre * :%s/\s\+$//e
+
 let g:syntastic_check_on_open=1
 
 "Make status bar appear all the time
@@ -68,7 +79,12 @@ set laststatus=2
 let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
-
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 "Settings for Gundo
 nnoremap <F5> :GundoToggle<CR>
 let g:gundo_width = 60
@@ -85,21 +101,26 @@ syntax on    "syntax highlighting
 filetype on  "try to detect filetype
 filetype plugin indent on   "enable loading indent file for filetype
 set background=dark
-colorscheme distinguished 
+colorscheme distinguished
 autocmd FileType tex AutoPairsDisable
 
-"make snipmate not mapped to tab so that I can use it with youcompleteme
-imap C-j <Plug>snipMateNextOrTrigger
-smap C-j <Plug>snipMateNextOrTrigger
+"make ultisnips not mapped to tab so that I can use it with youcompleteme
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
+"Add my snippets directory to the vim runtimepath
+set runtimepath+=~/.vim/snippets
 
 "CtrlP settings
-let g:ctrlp_custom_ignore= 'node_modules\|target\|amps-standalone\|bower_components'
+let g:ctrlp_custom_ignore= 'node_modules\|target\|amps-standalone\|bower_components|*.pyc'
 set pastetoggle=<F2>
 
 au FileType python set omnifunc=pythoncomplete#Complete
 
 set completeopt=menuone,longest,preview
 
+let NERDTreeIgnore = ['\.pyc$']
 map <leader>n :NERDTreeToggle<CR>
 
 nmap <leader>P <Esc>:CtrlP
@@ -107,7 +128,8 @@ nmap <leader>P <Esc>:CtrlP
 "Ctrl+C to break up {  }
 imap <C-c> <CR><Esc>O
 
-:set list lcs=tab:\|\ 
+"Add virtualenv paths to ctags
+map <F9> :!ctags -R -f ./tags $VIRTUAL_ENV/lib/python2.7/site-packages<CR>
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -121,36 +143,13 @@ if 'VIRTUAL_ENV' in os.environ:
     execfile(activate_this, dict(__file__=activate_this))
 EOF
 
-" highlight characters past column 120 
+" highlight characters past column 120
 augroup vimrc_autocmds
     autocmd!
     autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
     autocmd FileType python match Excess /\%120v.*/
     autocmd FileType python set nowrap
     augroup END
-
-function FindDjangoSettings2()
-    if strlen($VIRTUAL_ENV) && has('python')
-        let django_check = system("pip freeze | grep -q Django")
-        if v:shell_error
-            "echo 'django not installed'
-        else
-            "echo 'django is installed'
-            let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
-            let outarray= split(output, '[\/]\+')
-            let module  = outarray[-2] . '.' . 'settings'
-            let module  = outarray[-2] . '.' . 'settings'
-            " let curpath = '/' . join(outarray[:-2], '/')
-            execute 'python import sys, os'
-            " execute 'python sys.path.append("' . curpath . '")'
-            " execute 'python sys.path.append("' . syspath . '")'
-            execute 'python sys.path = ' . syspath
-            execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
-        endif
-    endif
-endfunction
-
-autocmd FileType python call FindDjangoSettings2()
 
 "vim-latex stuff
 " IMPORTANT: grep will sometimes skip displaying the file name if you
@@ -173,3 +172,4 @@ set iskeyword+=:"
 
 "Always compile to pdf
 let g:Tex_DefaultTargetFormat='pdf'
+
