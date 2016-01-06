@@ -6,7 +6,6 @@ call vundle#begin()
 
 "From github
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'jiangmiao/auto-pairs.git'
 Plugin 'kien/ctrlp.vim'
@@ -15,6 +14,7 @@ Plugin 'suan/vim-instant-markdown'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 Plugin 'bling/vim-airline'
+Plugin 'Mizuchi/vim-ranger' "Oh shit I replaced nerdtree!
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
@@ -36,6 +36,13 @@ Plugin 'lambdalisue/vim-django-support'
 Plugin 'szw/vim-tags'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'fisadev/vim-isort'
+Plugin 'munshkr/vim-tidal'
+Plugin 'terryma/vim-multiple-cursors'
+"Music development
+Plugin 'tpope/vim-fireplace.git'
+Plugin 'guns/vim-clojure-static'
+Plugin 'tpope/vim-classpath'
+Plugin 'sbl/scvim'
 "From vim.org
 Plugin 'repmo.vim'
 "color schemes
@@ -61,6 +68,7 @@ set expandtab
 "for code folding
 set foldmethod=indent
 set foldlevel=99
+nnoremap <Space> za
 
 "Shows blank lines and spaces
 set listchars=tab:>-,trail:~,extends:>,precedes:<
@@ -114,14 +122,12 @@ set runtimepath+=~/.vim/snippets
 
 "CtrlP settings
 let g:ctrlp_custom_ignore= 'node_modules\|target\|amps-standalone\|bower_components|*.pyc'
+let g:ctrlp_show_hidden = 1
 set pastetoggle=<F2>
 
 au FileType python set omnifunc=pythoncomplete#Complete
 
 set completeopt=menuone,longest,preview
-
-let NERDTreeIgnore = ['\.pyc$']
-map <leader>n :NERDTreeToggle<CR>
 
 nmap <leader>P <Esc>:CtrlP
 
@@ -130,6 +136,16 @@ imap <C-c> <CR><Esc>O
 
 "Add virtualenv paths to ctags
 map <F9> :!ctags -R -f ./tags $VIRTUAL_ENV/lib/python2.7/site-packages<CR>
+
+"Open a file in a new tab using the ranger add-on
+nnoremap <f9> :tabe %:p:h<cr>
+
+"Open file browser (in this case ranger) in new tab
+map <leader>n :tabe <C-R>=expand("%:p:h") . "/" <CR>
+map ,s :split <C-R>=expand("%:p:h") . "/" <CR>
+
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -173,3 +189,5 @@ set iskeyword+=:"
 "Always compile to pdf
 let g:Tex_DefaultTargetFormat='pdf'
 
+"Supercollider settings
+let g:sclangTerm = "gnome-terminal -x $SHELL -ic"
