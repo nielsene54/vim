@@ -7,6 +7,7 @@ call vundle#begin()
 "From github
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs.git'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
@@ -26,7 +27,6 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tmhedberg/matchit'
-Plugin 'tpope/vim-cucumber'
 Plugin 'vim-scripts/Gundo'
 Plugin 'fatih/vim-go'
 Plugin 'xolox/vim-misc'
@@ -38,11 +38,14 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'fisadev/vim-isort'
 Plugin 'munshkr/vim-tidal'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tell-k/vim-autopep8'
+Plugin 'elixir-lang/vim-elixir'
 "Music development
 Plugin 'tpope/vim-fireplace.git'
 Plugin 'guns/vim-clojure-static'
 Plugin 'tpope/vim-classpath'
 Plugin 'sbl/scvim'
+Plugin 'initrc/eclim-vundle'
 "From vim.org
 Plugin 'repmo.vim'
 "color schemes
@@ -191,3 +194,6 @@ let g:Tex_DefaultTargetFormat='pdf'
 
 "Supercollider settings
 let g:sclangTerm = "gnome-terminal -x $SHELL -ic"
+
+"Lua
+autocmd FileType lua setlocal shiftwidth=2 tabstop=2
