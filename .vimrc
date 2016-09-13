@@ -1,11 +1,14 @@
 set nocompatible
+
+filetype on
 filetype off
 
+set shell=bash
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 "From github
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs.git'
@@ -40,12 +43,16 @@ Plugin 'munshkr/vim-tidal'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tell-k/vim-autopep8'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'tpope/vim-dispatch'
 "Music development
 Plugin 'tpope/vim-fireplace.git'
 Plugin 'guns/vim-clojure-static'
 Plugin 'tpope/vim-classpath'
 Plugin 'sbl/scvim'
 Plugin 'initrc/eclim-vundle'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'wilsaj/chuck.vim'
 "From vim.org
 Plugin 'repmo.vim'
 "color schemes
@@ -53,8 +60,11 @@ Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 set number
-set shell=bash
 set noswapfile
+filetype plugin indent on   "enable loading indent file for filetype
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
 
 "Highlight search matches
 set hlsearch
@@ -110,7 +120,6 @@ map  <C-n> :tabnew<CR>
 set t_Co=256
 syntax on    "syntax highlighting
 filetype on  "try to detect filetype
-filetype plugin indent on   "enable loading indent file for filetype
 set background=dark
 colorscheme distinguished
 autocmd FileType tex AutoPairsDisable
